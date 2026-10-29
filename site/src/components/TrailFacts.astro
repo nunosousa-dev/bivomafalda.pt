@@ -1,0 +1,17 @@
+---
+interface Props { distance: string; places: string; difficulty: string; connections: string }
+const { distance, places, difficulty, connections } = Astro.props;
+---
+<dl class="trail-facts">
+  <div><dt>Percurso</dt><dd>{distance}</dd></div>
+  <div><dt>Dificuldade</dt><dd>{difficulty}</dd></div>
+  <div><dt>Pontos de percurso</dt><dd>{places}</dd></div>
+  <div><dt>Ligações</dt><dd>{connections}</dd></div>
+</dl>
+
+<style>
+  .trail-facts { margin: 0 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; padding: 1.5rem; border-radius: var(--radius); background: var(--mist); }
+  .trail-facts > div:nth-child(n+3) { grid-column: 1 / -1; }
+  dt { color: var(--muted); font-size: .65rem; margin-bottom: .3rem; }
+  dd { margin: 0; color: var(--ink); font-size: .8rem; font-weight: 500; }
+</style>

@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import ContactBanner from '../components/ContactBanner.astro';
+import Icon from '../components/Icon.astro';
+import { gallery } from '../data/gallery';
+import event from '../assets/room/img-2.jpg';
+---
+<BaseLayout title="Preços e Reservas" description="Consulte as opções de estadia na Casa da Bivó Mafalda: casa completa com seis quartos, quarto de casal ou single. Reservas por contacto directo." path="/precos.html">
+  <PageIntro title="Escolha como quer ficar." description="A casa toda ou um quarto só para si. Conheça as opções e fale connosco para combinar a sua estadia." />
+  <section class="container stays" aria-label="Preços e opções de estadia">
+    <article class="stay-row">
+      <figure class="stay-photo"><Image src={gallery[0].image} alt={gallery[0].alt} widths={[400, 700, 970]} sizes="(max-width: 800px) 90vw, 45vw" loading="eager" /></figure>
+      <div class="stay-content">
+        <h2>Uma casa só para si.</h2>
+        <p>Reservar Casa</p>
+        <ul class="stay-features"><li>6 quartos com camas de casal</li><li>Todos os quartos têm casa de banho privativa.</li><li>Crianças até aos 12 anos</li></ul>
+        <dl class="house-prices">
+          <div><dt>Uma semana</dt><dd>1 250 €</dd></div>
+          <div><dt>Época alta <small>Julho e Agosto</small></dt><dd>350 € <small>/ noite</small><br />1 500 € <small>/ semana</small></dd></div>
+        </dl>
+        <div class="stay-action"><a class="button" href="/contactos.html">Pedir disponibilidade <Icon name="arrow" size={17} /></a><span>Sob consulta</span></div>
+      </div>
+    </article>
+    <article class="stay-row">
+      <figure class="stay-photo"><Image src={gallery[18].image} alt={gallery[18].alt} widths={[400, 700, 970]} sizes="(max-width: 800px) 90vw, 45vw" /></figure>
+      <div class="stay-content">
+        <h2>O seu quarto no Douro.</h2>
+        <p>Reservar Quarto</p>
+        <div class="rates-scroll">
+          <table class="room-rates">
+            <caption>Valores por noite</caption>
+            <thead><tr><th scope="col">Quarto</th><th scope="col">Sem pequeno-<br />almoço</th><th scope="col">Com pequeno-<br />almoço</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Casal</th><td>65 €</td><td>70 €</td></tr>
+              <tr><th scope="row">Single</th><td>60 €</td><td>65 €</td></tr>
+              <tr><th scope="row">Época alta<small>Julho e Agosto</small></th><td>70 €</td><td>75 €</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="children-note">Quarto de casal: criança até 12 anos gratuito.</p>
+        <div class="stay-action"><a class="button" href="/contactos.html">Pedir disponibilidade <Icon name="arrow" size={17} /></a><span>Sob consulta</span></div>
+      </div>
+    </article>
+    <article class="stay-row events">
+      <figure class="stay-photo"><Image src={event} alt="Festa tradicional com iluminação e bandeirolas na rua" widths={[320, 370]} sizes="(max-width: 800px) 90vw, 35vw" /></figure>
+      <div class="stay-content">
+        <h2>Dias que merecem ser celebrados.</h2>
+        <p>Eventos</p>
+        <p class="event-description">Todos os anos realizam-se na localidade festas tradicionais como o São João de Tabuaço, o São Martinho, a Feira Medieval de Pinheiros entre muitas outras.</p>
+        <p class="event-description">Pode ainda optar por outras datas festivas:</p>
+        <ul class="event-dates"><li>Carnaval</li><li>Páscoa</li><li>Natal</li><li>Passagem de Ano</li><li>Outras (sob consulta)</li></ul>
+        <div class="stay-action"><a class="text-link" href="/contactos.html">Fale connosco sobre a sua data <Icon name="arrow" size={17} /></a><span>Sob consulta</span></div>
+      </div>
+    </article>
+    <p class="price-note">Confirme os valores e a disponibilidade por telefone ou email antes de reservar.</p>
+  </section>
+  <ContactBanner />
+</BaseLayout>
+
+<style>
+  .stays { padding-bottom: 4rem; }
+  .stay-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); padding-block: 3.5rem; border-top: 1px solid var(--line); }
+  .stay-row:first-child { padding-top: 0; border-top: 0; }
+  .stay-photo img { width: 100%; aspect-ratio: 1.05; object-fit: cover; border-radius: var(--radius); }
+  .stay-content h2 { font-size: clamp(2rem, 3.2vw, 2.8rem); }
+  .stay-content > p:first-of-type { margin-top: .75rem; font-size: .8rem; color: var(--muted); }
+  .stay-features { color: var(--muted); font-size: .85rem; padding-left: 1.1rem; margin-block: 1.5rem; }
+  .stay-features li { padding-left: .3rem; margin-block: .3rem; }
+  .house-prices { margin: 0; }
+  .house-prices > div { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding-block: 1rem; }
+  dt { font-size: .8rem; }
+  dt small { display: block; color: var(--muted); font-size: .7rem; }
+  dd { margin: 0; font-size: 1.3rem; line-height: 1.6; font-weight: 600; font-variant-numeric: tabular-nums; }
+  dd small { font-size: .7rem; font-weight: 400; color: var(--muted); }
+  .stay-action { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem 1.5rem; margin-top: 1.5rem; }
+  .stay-action > span { font-size: .7rem; color: var(--muted); }
+  .room-rates { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+  caption { text-align: left; font-size: .7rem; color: var(--muted); padding-bottom: .75rem; }
+  th, td { padding: .9rem .35rem; border-bottom: 1px solid var(--line); text-align: right; }
+  th:first-child { text-align: left; padding-left: 0; }
+  thead th { font-size: .65rem; font-weight: 500; line-height: 1.5; color: var(--muted); }
+  tbody th { font-size: .8rem; font-weight: 500; }
+  tbody th small { display: block; font-size: .65rem; color: var(--muted); }
+  td { font-size: 1.15rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .children-note { font-size: .7rem; color: var(--muted); margin-top: 1rem; }
+  .events .stay-photo img { aspect-ratio: 1.5; }
+  .event-description { color: var(--muted); font-size: .85rem; margin-top: 1.25rem; }
+  .event-dates { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; font-size: .75rem; color: var(--muted); padding: 0; margin-top: 1rem; list-style: none; }
+  .price-note { border-top: 1px solid var(--line); padding-top: 1.5rem; font-size: .75rem; color: var(--muted); }
+  @media (max-width: 800px) {
+    .stay-row { grid-template-columns: 1fr; gap: 2rem; padding-block: 3rem; }
+    .stay-photo img { aspect-ratio: 1.4; }
+  }
+</style>

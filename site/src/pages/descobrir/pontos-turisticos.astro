@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import DiscoverNav from '../../components/DiscoverNav.astro';
+import ContactBanner from '../../components/ContactBanner.astro';
+import church from '../../assets/about/img-4.jpg';
+import chapel from '../../assets/about/img-5.jpg';
+const path = '/descobrir/pontos-turisticos.html';
+---
+<BaseLayout title="Pontos Turísticos" description="Descubra o património de Pinheiros, no Douro: a Igreja Matriz de Santa Eufémia e a Capela de Santa Bárbara, a partir da Casa da Bivó Mafalda." path={path}>
+  <PageIntro title="O que há para descobrir." description="A Casa da Bivó Mafalda insere-se num povoado típico de aldeia na região do Douro." />
+  <DiscoverNav path={path} />
+  <div class="container">
+    <article class="article-row">
+      <figure class="article-images">
+        <Image src={church} alt="Igreja Matriz de Pinheiros, em granito, com duas torres sineiras" widths={[400, 585]} sizes="(max-width: 800px) 90vw, 40vw" loading="eager" />
+      </figure>
+      <div class="article-copy prose">
+        <h2>Igreja Matriz de Pinheiros</h2>
+        <p>A Igreja de Pinheiros, de invocação a Santa Eufémia, só foi construída no séc. XVII. Sofreu melhoramentos e alterações durante os séculos XVII, XVIII, XIX, XX e já no século XXI. Possui arquitectura religiosa, Maneirista e Barroca.</p>
+        <p>De facto, estruturalmente, a igreja é de estrutura maneirista, embora tenha sido construída no período barroco, sobre uma capela medieval da qual não existem quaisquer vestígios. O altar-mor é também deste século XVIII, em talha dourada da Renascença.</p>
+        <p>O tecto da capela mor é formado por 20 caixotões. Tem duas torres sineiras. A imagem de Santa Eufémia, muito antiga, tem cerca de 80 cm de altura.</p>
+        <p>Em 2003, sofreu obras de restauro e conservação, com intervenção na estrutura, reforçada, com novo telhado, novo tecto, alargamento da Igreja com uma capela lateral, onde se encontra o baptistério e a imagem de Santa Bábara, e que anteriormente era espaço de arrumação e de passagem para a sacristia.</p>
+        <p class="access"><strong>Acesso:</strong> Pela EN 226-2 até Barcos; daqui, pela EM 514 até Pinheiros, sita no Lg. do Adro.</p>
+      </div>
+    </article>
+    <article class="article-row">
+      <figure class="article-images">
+        <Image src={chapel} alt="A fachada simples e o campanário da Capela de Santa Bárbara" widths={[400, 585]} sizes="(max-width: 800px) 90vw, 40vw" />
+      </figure>
+      <div class="article-copy prose">
+        <h2>Capela de Sta. Bárbara</h2>
+        <p>A época de construção situa-se no séc. XVII, sendo a arquitectura caracteristicamente religiosa, vernácula.</p>
+        <p>Trata-se de uma capela muito simples, destacando-se particularmente o altar em forma de urna, decorada com elementos geométricos e cálice em reserva central.</p>
+        <p class="access"><strong>Acesso:</strong> Em Pinheiros, por caminho florestal para N., no Lug. de Santa Bárbara.</p>
+      </div>
+    </article>
+  </div>
+  <ContactBanner />
+</BaseLayout>

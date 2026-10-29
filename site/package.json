@@ -1,0 +1,29 @@
+{
+  "name": "casa-da-bivo-mafalda",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "playwright test",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource/gelasio": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^24.19.2",
+    "typescript": "^6.0.3"
+  }
+}

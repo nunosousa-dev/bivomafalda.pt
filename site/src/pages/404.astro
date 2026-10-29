@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Icon from '../components/Icon.astro';
+---
+<BaseLayout title="Página não encontrada" description="Esta página não foi encontrada. Volte ao início para conhecer a Casa da Bivó Mafalda." path="/404.html">
+  <meta slot="head" name="robots" content="noindex" />
+  <PageIntro title="Este caminho não vai dar à casa." description="A página que procura não existe ou mudou de lugar. Mas a porta de entrada continua aberta." />
+  <div class="container not-found"><a class="button" href="/">Voltar ao início <Icon name="arrow" size={18} /></a><a class="text-link" href="/contactos.html">Falar connosco</a></div>
+</BaseLayout>
+
+<style>.not-found { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; padding-bottom: 6rem; }</style>
