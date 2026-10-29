@@ -1,0 +1,15 @@
+---
+import { discoverPages } from '../data/site';
+interface Props { path: string }
+const { path } = Astro.props;
+---
+<nav class="discover-nav container" aria-label="Descobrir a casa e a região">
+  {discoverPages.map((page) => <a href={page.href} aria-current={path === page.href ? 'page' : undefined}>{page.title}</a>)}
+</nav>
+
+<style>
+  .discover-nav { display: flex; flex-wrap: wrap; gap: .75rem 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+  a { font-size: .75rem; text-decoration: none; padding-block: .5rem; color: var(--muted); }
+  a[aria-current='page'] { font-weight: 700; color: var(--pine); text-decoration: underline; text-underline-offset: .65rem; }
+  @media (max-width: 600px) { .discover-nav { gap: .5rem 1.1rem; } a { font-size: .7rem; } }
+</style>

@@ -1,0 +1,154 @@
+---
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import ContactBanner from '../components/ContactBanner.astro';
+import Icon from '../components/Icon.astro';
+import { gallery, categories } from '../data/gallery';
+const photos = await Promise.all(gallery.map(async (photo) => ({
+  ...photo,
+  full: await getImage({ src: photo.image, width: photo.image.width, format: 'webp', quality: 90 }),
+})));
+---
+<BaseLayout title="Galeria" description="Conheça a casa por dentro e por fora. Fotografias dos quartos, da piscina, da adega e dos espaços da Casa da Bivó Mafalda, em Pinheiros, no Douro." path="/galeria.html">
+  <PageIntro title="A casa, em fotografias." description="Entre, espreite os quartos e escolha o seu cantinho. A próxima memória pode ser a sua." />
+  <section class="container gallery-section" aria-label="Galeria de fotografias" data-gallery>
+    <div class="gallery-toolbar">
+      <div class="gallery-filters" aria-label="Filtrar fotografias" role="group" hidden>
+        {categories.map((category) => <button type="button" data-filter={category.id} aria-pressed={category.id === 'todas'}>{category.label}</button>)}
+      </div>
+      <p class="gallery-count" role="status" aria-live="polite">20 fotografias</p>
+    </div>
+    <noscript><p class="gallery-fallback">Seleccione uma fotografia para a abrir em tamanho completo.</p></noscript>
+    <div class="gallery-grid">
+      {photos.map((photo, index) => <figure data-categories={photo.categories.join(' ')}>
+        <a class="gallery-photo" href={photo.full.src} data-photo data-alt={photo.alt} aria-label={`Ampliar: ${photo.alt}`}>
+          <Image src={photo.image} alt={photo.alt} widths={[320, 480, 700]} sizes="(max-width: 600px) 90vw, (max-width: 900px) 45vw, 30vw" loading={index < 3 ? 'eager' : 'lazy'} />
+          <span class="photo-expand"><Icon name="expand" size={20} /></span>
+        </a>
+        <figcaption>{photo.alt}</figcaption>
+      </figure>)}
+    </div>
+  </section>
+  <dialog class="lightbox" aria-label="Fotografia ampliada">
+    <div class="lightbox-inner">
+      <div class="lightbox-top"><span data-photo-count aria-live="polite"></span><form method="dialog"><button type="submit" class="icon-button" aria-label="Fechar fotografia" autofocus><Icon name="close" /></button></form></div>
+      <div class="lightbox-image"><img src={photos[0].full.src} alt={photos[0].alt} loading="lazy" decoding="async" /></div>
+      <div class="lightbox-bottom">
+        <button type="button" class="icon-button previous" aria-label="Fotografia anterior" aria-keyshortcuts="ArrowLeft"><Icon name="arrow" /></button>
+        <p data-photo-caption aria-live="polite"></p>
+        <button type="button" class="icon-button next" aria-label="Fotografia seguinte" aria-keyshortcuts="ArrowRight"><Icon name="arrow" /></button>
+      </div>
+    </div>
+  </dialog>
+  <ContactBanner />
+</BaseLayout>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>('[data-gallery]');
+  const dialog = document.querySelector<HTMLDialogElement>('.lightbox');
+  if (gallery && dialog) {
+    const figures = [...gallery.querySelectorAll<HTMLElement>('[data-categories]')];
+    const buttons = [...gallery.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const filters = gallery.querySelector<HTMLElement>('.gallery-filters');
+    const count = gallery.querySelector<HTMLElement>('.gallery-count');
+    const image = dialog.querySelector<HTMLImageElement>('img');
+    const caption = dialog.querySelector<HTMLElement>('[data-photo-caption]');
+    const photoCount = dialog.querySelector<HTMLElement>('[data-photo-count]');
+    let activeIndex = 0;
+    let trigger: HTMLAnchorElement | null = null;
+    const visiblePhotos = () => figures.filter((figure) => !figure.hidden).map((figure) => figure.querySelector<HTMLAnchorElement>('[data-photo]')!);
+
+    function filter(category: string) {
+      for (const figure of figures) figure.hidden = category !== 'todas' && !figure.dataset.categories?.split(' ').includes(category);
+      for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.filter === category));
+      const total = visiblePhotos().length;
+      if (count) count.textContent = `${total} ${total === 1 ? 'fotografia' : 'fotografias'}`;
+    }
+
+    function showPhoto(index: number) {
+      const photos = visiblePhotos();
+      activeIndex = (index + photos.length) % photos.length;
+      const photo = photos[activeIndex];
+      if (image) { image.src = photo.href; image.alt = photo.dataset.alt ?? ''; }
+      if (caption) caption.textContent = photo.dataset.alt ?? '';
+      if (photoCount) photoCount.textContent = `${activeIndex + 1} / ${photos.length}`;
+    }
+
+    for (const button of buttons) button.addEventListener('click', () => {
+      const category = button.dataset.filter ?? 'todas';
+      filter(category);
+      const url = new URL(location.href);
+      if (category === 'todas') url.searchParams.delete('categoria');
+      else url.searchParams.set('categoria', category);
+      history.replaceState(null, '', url);
+    });
+    const initialCategory = new URLSearchParams(location.search).get('categoria');
+    filter(buttons.some((button) => button.dataset.filter === initialCategory) ? initialCategory! : 'todas');
+    if (filters) filters.hidden = false;
+
+    if (typeof dialog.showModal === 'function') {
+      gallery.addEventListener('click', (event) => {
+        const photo = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('[data-photo]') : null;
+        if (!photo || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        trigger = photo;
+        showPhoto(visiblePhotos().indexOf(photo));
+        dialog.showModal();
+        document.documentElement.classList.add('lightbox-open');
+      });
+      dialog.querySelector('.previous')?.addEventListener('click', () => showPhoto(activeIndex - 1));
+      dialog.querySelector('.next')?.addEventListener('click', () => showPhoto(activeIndex + 1));
+      dialog.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          showPhoto(activeIndex + (event.key === 'ArrowLeft' ? -1 : 1));
+        }
+      });
+      dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+      dialog.addEventListener('close', () => {
+        document.documentElement.classList.remove('lightbox-open');
+        trigger?.focus();
+      });
+    }
+  }
+</script>
+
+<style>
+  .gallery-section { padding-bottom: 5rem; }
+  .gallery-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+  .gallery-filters { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .gallery-filters button { background: transparent; color: var(--muted); border: 0; border-radius: 7px; padding: .75rem 1rem; font-size: .75rem; font-weight: 600; min-height: 44px; }
+  .gallery-filters button:hover { background: var(--mist); color: var(--pine); }
+  .gallery-filters button[aria-pressed='true'] { background: var(--pine); color: var(--paper); }
+  .gallery-count { font-size: .7rem; color: var(--muted); flex-shrink: 0; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 1.5rem; }
+  .gallery-photo { display: block; aspect-ratio: 1.25; position: relative; overflow: hidden; border-radius: var(--radius); background: var(--mist); }
+  .gallery-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 450ms cubic-bezier(.16, 1, .3, 1); }
+  .gallery-photo:hover img { transform: scale(1.035); }
+  .photo-expand { position: absolute; right: .75rem; bottom: .75rem; display: grid; place-items: center; width: 36px; height: 36px; background: var(--paper); color: var(--pine); border-radius: 7px; }
+  figcaption { font-size: .72rem; color: var(--muted); padding-top: .7rem; }
+  .gallery-fallback { margin-bottom: 1.5rem; }
+  :global(html.lightbox-open) { overflow: hidden; }
+  .lightbox { width: min(1120px, calc(100% - 2rem)); max-height: calc(100svh - 2rem); padding: 0; background: var(--paper); color: var(--pine); border: 0; border-radius: var(--radius); box-shadow: var(--shadow); }
+  .lightbox::backdrop { background: rgb(7 22 17 / .9); }
+  .lightbox-inner { padding: .75rem 1.25rem; }
+  .lightbox-top, .lightbox-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .lightbox-top > span { font-size: .75rem; font-variant-numeric: tabular-nums; }
+  .lightbox-image { min-height: 150px; display: grid; place-items: center; }
+  .lightbox-image img { max-height: 70svh; width: auto; max-width: 100%; object-fit: contain; }
+  .lightbox-bottom { padding-top: .5rem; }
+  .lightbox-bottom p { font-size: .75rem; text-align: center; }
+  .icon-button { background: transparent; color: var(--pine); width: 44px; height: 44px; border: 0; display: inline-grid; place-items: center; border-radius: 7px; flex-shrink: 0; }
+  .icon-button:hover { background: var(--leaf); }
+  .previous :global(svg) { transform: rotate(180deg); }
+  @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } .gallery-toolbar { flex-direction: column; align-items: flex-start; gap: 1rem; } }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .gallery-filters { gap: .2rem; }
+    .gallery-filters button { padding: .6rem .8rem; }
+    .lightbox-inner { padding: .5rem; }
+    .lightbox-bottom { gap: .35rem; }
+    .lightbox-bottom p { font-size: .65rem; }
+  }
+</style>

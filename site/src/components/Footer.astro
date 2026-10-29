@@ -1,0 +1,57 @@
+---
+import { site, discoverPages } from '../data/site';
+import Icon from './Icon.astro';
+---
+<footer class="site-footer">
+  <div class="container footer-main">
+    <div class="footer-brand">
+      <a href="/">Casa da<br /><span>Bivó Mafalda.</span></a>
+      <p>Uma casa de família.<br />Uma história no Douro.</p>
+    </div>
+    <div>
+      <h2>Encontre-nos</h2>
+      <address>{site.address}<br />{site.locality}<br />Portugal</address>
+      <a class="footer-map" href={site.mapUrl} target="_blank" rel="noopener noreferrer">Como chegar <Icon name="diagonal" size={15} /></a>
+    </div>
+    <div>
+      <h2>Fale connosco</h2>
+      <ul class="footer-phones">
+        {site.phones.map((phone) => <li><a href={phone.href}>{phone.label}</a></li>)}
+      </ul>
+      <a class="footer-email" href={`mailto:${site.email}`}>{site.email}</a>
+      <p class="call-note">Chamadas para a rede móvel nacional.</p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {new Date().getFullYear()} {site.name}</p>
+    <nav aria-label="Links de rodapé">
+      {discoverPages.map((page) => <a href={page.href}>{page.title}</a>)}
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer { color: var(--paper); background: var(--pine); }
+  .footer-main { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 3rem; padding-block: 4.5rem; }
+  .footer-brand > a { display: inline-block; font-size: .8rem; line-height: 1.4; text-decoration: none; }
+  .footer-brand > a span { font-family: var(--font-display); font-size: 2rem; }
+  .footer-brand p { margin-top: 1.2rem; color: var(--on-pine-muted); font-size: .85rem; }
+  h2 { font-family: var(--font-body); font-weight: 600; font-size: .85rem; margin-bottom: 1.1rem; }
+  address, .footer-phones { font-size: .85rem; font-style: normal; color: var(--on-pine-muted); line-height: 1.9; }
+  .footer-phones { list-style: none; padding: 0; margin: 0 0 .65rem; }
+  .footer-phones a { text-decoration: none; }
+  .footer-map { display: inline-flex; gap: .6rem; align-items: center; font-size: .8rem; margin-top: 1rem; text-decoration: none; }
+  .footer-email { font-size: .8rem; overflow-wrap: anywhere; }
+  .call-note { color: var(--on-pine-muted); font-size: .65rem; margin-top: .75rem; }
+  .footer-bottom { border-top: 1px solid rgb(233 243 235 / .2); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: 1.5rem; font-size: .65rem; color: var(--on-pine-muted); }
+  .footer-bottom p { margin: 0; }
+  .footer-bottom nav { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+  .footer-bottom a { text-decoration: none; }
+  @media (max-width: 800px) {
+    .footer-main { grid-template-columns: 1fr 1fr; padding-block: 3rem; gap: 2.5rem 1.5rem; }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .footer-bottom nav { gap: .75rem 1.25rem; }
+  }
+  @media (max-width: 420px) { .footer-main { grid-template-columns: 1fr; } }
+</style>

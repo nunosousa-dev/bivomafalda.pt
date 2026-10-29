@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import DiscoverNav from '../../components/DiscoverNav.astro';
+import ContactBanner from '../../components/ContactBanner.astro';
+import facade from '../../assets/about/img-1.jpg';
+import memories from '../../assets/about/img-2.jpg';
+import telephone from '../../assets/about/img-3.jpg';
+import { gallery } from '../../data/gallery';
+const path = '/descobrir/historia-da-casa.html';
+---
+<BaseLayout title="História da Casa" description="Uma casa com memórias de família, paredes de granito e uma história que se presume remontar a 1853. Descubra a história da Casa da Bivó Mafalda." path={path}>
+  <PageIntro title="Uma casa. Muitas gerações." description="Pressupõe-se que a história da casa da Bivó Mafalda remonte a 1853." />
+  <DiscoverNav path={path} />
+  <div class="container history-content">
+    <article class="article-row">
+      <div class="article-images">
+        <Image src={facade} alt="A fachada de granito da Casa da Bivó Mafalda" widths={[400, 585]} sizes="(max-width: 800px) 45vw, 40vw" loading="eager" />
+        <Image src={memories} alt="Fotografias de família recuperadas e expostas na casa" widths={[400, 585]} sizes="(max-width: 800px) 45vw, 40vw" />
+      </div>
+      <div class="article-copy prose">
+        <h2>As paredes guardam a história.</h2>
+        <p>Sita no centro da aldeia, as suas paredes graníticas encerram toda uma história familiar.</p>
+        <p>A bisavó Mafalda Margarida legou na actual proprietária não só o nome mas também a casa que perpetua a sua memória.</p>
+        <p>Esta casa, propriedade dos bisavôs maternos, foi objecto de, pelo menos, dois grandes projectos de recuperação, um em 1930 e outro na década de cinquenta. Recentemente foi alvo de nova recuperação e ampliação tendo como objectivo a criação de uma instituição de Turismo Rural.</p>
+        <p>Todas as peças de mobiliário, de decoração assim como fotografias existentes na casa, que retratam já três gerações, são de grande simplicidade, foram cuidadas e carinhosamente recuperadas. Hoje, decoram a casa de forma a registar e narrar as vivências.</p>
+        <p>Deste modo, pretende-se dar vida à "Casa da Bivó Mafalda" assim como eternizar a memória dos seus proprietários anteriores.</p>
+        <p>Com estes princípios de foro emocional, procedeu-se à transformação do antigo lagar em Museu Regional e Histórico-Cultural, onde se projecta eventos dos quais se salienta a “festa da vindima” com “pisa” da uva à moda antiga.</p>
+      </div>
+    </article>
+    <article class="article-row">
+      <div class="article-images">
+        <Image src={gallery[10].image} alt={gallery[10].alt} widths={[400, 700, 970]} sizes="(max-width: 800px) 45vw, 40vw" />
+        <Image src={telephone} alt="Telefone antigo preservado na casa, junto às paredes de granito" widths={[400, 585]} sizes="(max-width: 800px) 45vw, 40vw" />
+      </div>
+      <div class="article-copy prose">
+        <h2>Porquê escolher a casa?</h2>
+        <p>Reestruturou-se também a antiga adega / bar visando criar um espaço de lazer e convívio. Como decoração reutilizaram-se os pipos e pipas antigos, agora vazios do precioso vinho a que estiveram tantos anos acostumados. O ambiente que proporcionam, rústico, acolhedor, tranquilo, aprazível, assim como o acesso privilegiado que o inclui na área envolvente do jardim e da piscina, fizeram deste espaço um dos preferidos por visitantes e proprietários.</p>
+        <p>Para realmente sentir e viver a “Casa da Bivó Mafalda” convidamos todos os que pretendam conhecer este espaço, a visitar-nos. Alie esta visita a factores regionais, históricos e culturais, à oportunidade de passear ao longo das margens do Douro com todos os encantos que este rio encerra.</p>
+        <p>Venham conhecer a aldeia de Pinheiros situada nesta bela região de Portugal que é o Douro Vinhateiro.</p>
+      </div>
+    </article>
+  </div>
+  <ContactBanner />
+</BaseLayout>
+
+<style>.history-content { padding-bottom: 1rem; }</style>

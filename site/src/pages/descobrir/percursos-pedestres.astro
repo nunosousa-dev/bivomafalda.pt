@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import DiscoverNav from '../../components/DiscoverNav.astro';
+import TrailFacts from '../../components/TrailFacts.astro';
+import ContactBanner from '../../components/ContactBanner.astro';
+import trail from '../../assets/about/img-6.jpg';
+import vineyard from '../../assets/about/img-7.jpg';
+const path = '/descobrir/percursos-pedestres.html';
+---
+<BaseLayout title="Percursos Pedestres" description="Explore o Douro a pé: PR1 Vale do Tedo, com cerca de 13,2 km, e GR14 Vinhos da Europa, num troço de 16,5 km. Conheça os percursos a partir de Pinheiros." path={path}>
+  <PageIntro title="O Douro, passo a passo." description="Caminhos antigos, aldeias e paisagens para descobrir sem pressa." />
+  <DiscoverNav path={path} />
+  <div class="container">
+    <article class="article-row">
+      <figure class="article-images">
+        <Image src={trail} alt="Caminho de pedra no percurso pedestre entre a vegetação e os rochedos" widths={[400, 585]} sizes="(max-width: 800px) 90vw, 40vw" loading="eager" />
+      </figure>
+      <div class="article-copy prose">
+        <h2>Vale do Tedo</h2>
+        <TrailFacts distance="PR1 · cerca de 13,2 km" difficulty="Fácil, acessível a todos" places="Granja do Tedo, Ribeira de Goujoim, Pinheiros, Vale de Figueira" connections={'GR14 "Rota dos Vinhos da Europa"'} />
+        <p>O PR1 – Vale do Tedo é um percurso pedestre de pequena rota que se inicia na Granja do Tedo sobe a Vale de Figueira, inicialmente por um caminho de calçada até à EN 514. Atravessada esta, continua por um caminho agrícola aparecendo ao lado esquerdo do caminhante um frondoso vale onde as hortas se misturam com pomares, sabugueiros e ramadas de vinha. Chegado a Vale de Figueira visita-se esta localidade. Após a visita sobe-se por um estradão florestal até à serra (821m de altitude) passando-se de seguida por Corças, onde se inicia a descida para Pinheiros. Aqui, entre outros motivos, é de visitar as gravuras rupestres do Cabeço das Pombas.</p>
+        <p>Inicia-se depois a descida para vale do Tedo por um carreiro secular que desce serpenteando, passando pela quinta das Cruzes após a qual se toma uma bem conservada calçada até à Ribeira de Goujoim. Passada a ponte, junto ao cemitério, encontram-se as marcas do GR14 – “Rota dos Vinhos da Europa”, por onde o PR1 também decorre. Sobe-se ao longo do Rio Tedo – courelas (várzeas) amanhadas, os antigos banhos de D. Maria, sabugueiros, pomares, ramadas de vinha e, logo depois, a Granja do Tedo.</p>
+      </div>
+    </article>
+    <article class="article-row">
+      <figure class="article-images">
+        <Image src={vineyard} alt="Encostas do Douro cobertas por socalcos de vinha" widths={[400, 585]} sizes="(max-width: 800px) 90vw, 40vw" />
+      </figure>
+      <div class="article-copy prose">
+        <h2>Vinhos da Europa</h2>
+        <TrailFacts distance="GR14 · linear, cerca de 16,5 km" difficulty="Média, alguns desníveis" places="Goujoim, Granja do Tedo, Longa, Arcos, Sendim e Paço" connections={'GR14 – troço concelho de Armamar e PR1 "Vale do Tedo"'} />
+        <p>O GR14 chamava-se, até Agosto de 2002, Rota do Douro, sendo esta a denominação do percurso pedestre internacional que se iniciava na nascente do Douro e que o acompanhava até à foz. Já implantado e marcado em Espanha, até território de Salamanca, nunca saiu do papel em Portugal.</p>
+        <p>Após contactos com alguns municípios do Douro Sul, obteve a Federação Portuguesa de Campismo a vontade expressa de algumas autarquias em participarem neste projecto.</p>
+        <p>O troço concelhio de Tabuaço inicia-se nas extremas do concelho, vindo de Goujoim, Armamar, passa pela Granja do Tedo, sobe por antiquíssimos caminhos às freguesias de Longa e Arcos e continua depois para Paço – Sendim – até ao rio Távora, onde faz ligação ao troço concelhio de São João da Pesqueira. Ao longo do caminho é possível observar não só um riquíssimo património edificado e natural, bem como a relação harmoniosa das populações com o seu meio.</p>
+      </div>
+    </article>
+    <p class="route-note">As descrições dos percursos são as do site original. Antes de partir, confirme as condições e a sinalização locais.</p>
+  </div>
+  <ContactBanner />
+</BaseLayout>
+
+<style>.route-note { max-width: 70ch; color: var(--muted); font-size: .75rem; padding-block: 0 3rem; }</style>

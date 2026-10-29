@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<section class="contact-banner" aria-labelledby="contact-banner-title">
+  <div class="container contact-banner-inner">
+    <div>
+      <h2 id="contact-banner-title">A sua próxima visita<br />começa com uma conversa.</h2>
+      <p>Para informações e reservas, fale directamente connosco.</p>
+    </div>
+    <div class="contact-banner-actions">
+      <a class="button" href={site.phones[0].href}><Icon name="phone" size={18} /> {site.phones[0].label}</a>
+      <a class="text-link" href={`mailto:${site.email}`}>Prefere escrever? Envie-nos um email <Icon name="arrow" size={18} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-banner { padding-block: 4.5rem; background: var(--leaf); }
+  .contact-banner-inner { display: flex; align-items: center; justify-content: space-between; gap: 2.5rem; }
+  h2 { font-size: clamp(1.9rem, 3.2vw, 2.8rem); }
+  p { color: var(--muted); font-size: .9rem; margin: 1rem 0 0; }
+  .contact-banner-actions { display: grid; justify-items: start; gap: 1.2rem; }
+  .text-link { font-size: .75rem; }
+  @media (max-width: 800px) {
+    .contact-banner { padding-block: 3.5rem; }
+    .contact-banner-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
